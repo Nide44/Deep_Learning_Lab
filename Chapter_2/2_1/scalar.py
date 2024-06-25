@@ -13,5 +13,8 @@ class Scalar:
     def check_valid_scalar(self):
         return Utils.check_primitive_type(self.type)
     
+    def transpose(self):
+        pass
+    
     def __str__(self):
         return Utils.stringify_tensor(self.dim, self.value)

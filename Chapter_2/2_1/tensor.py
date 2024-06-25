@@ -27,5 +27,8 @@ class Tensor:
     def check_valid_tensor(self):
         return Utils.check_primitive_type(self.type) and Utils.check_same_type(self.type, Utils.flatten_tensor(self.dim, self.values)) and Utils.check_complete_tensor(self.dim, self.values)
     
+    def transpose(self, indices):
+        self.dim, self.values = Utils.transpose_tensor_values(self.dim, self.values, indices)
+    
     def __str__(self):
         return Utils.stringify_tensor(self.dim, self.values)

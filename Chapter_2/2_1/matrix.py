@@ -13,5 +13,8 @@ class Matrix:
     def check_valid_matrix(self):
         return Utils.check_primitive_type(self.type) and Utils.check_same_type(self.type, Utils.flatten_tensor(self.dim, self.values)) and Utils.check_complete_tensor(self.dim, self.values)
     
+    def transpose(self):
+        self.dim, self.values = Utils.transpose_tensor_values(self.dim, self.values)
+    
     def __str__(self):
         return Utils.stringify_tensor(self.dim, self.values)

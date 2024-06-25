@@ -15,5 +15,8 @@ class Vector:
     def check_valid_vector(self):
         return Utils.check_primitive_type(self.type) and Utils.check_same_type(self.type, self.values)
     
+    def transpose(self):
+        self.vertical = not self.vertical
+    
     def __str__(self):
         return Utils.stringify_tensor(self.dim, self.values, vertical=True)
