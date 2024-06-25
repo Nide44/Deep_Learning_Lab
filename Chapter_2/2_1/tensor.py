@@ -10,6 +10,12 @@ class Tensor:
         if not is_valid_tensor:
             raise Exception("Tensor is not valid")
         
+    def __add__(self, other):
+        if self.dim != other.dim:
+            raise Exception("Cannot add tensors as they have a different shape")
+        
+        return Tensor(Utils.add_tensor_values(self.dim, self.values, other.values))
+        
     def define_dimension(self, values):
         if isinstance(values[0], list):
             lower_dim = self.define_dimension(values[0])
@@ -29,6 +35,12 @@ class Tensor:
     
     def transpose(self, indices):
         self.dim, self.values = Utils.transpose_tensor_values(self.dim, self.values, indices)
+
+    def scalar_mul(self, scalar):
+        self.values = Utils.scalar_mul(self.dim, self.values, scalar.value)
+
+    def scalar_add(self, scalar):
+        self.values = Utils.scalar_add(self.dim, self.values, scalar.value)
     
     def __str__(self):
         return Utils.stringify_tensor(self.dim, self.values)

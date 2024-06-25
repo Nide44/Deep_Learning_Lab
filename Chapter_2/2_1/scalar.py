@@ -9,6 +9,9 @@ class Scalar:
         is_valid_scalar = self.check_valid_scalar()
         if not is_valid_scalar:
             raise Exception("Scalar is not valid")
+        
+    def __add__(self, other):
+        return Scalar(self.value + other.value)
 
     def check_valid_scalar(self):
         return Utils.check_primitive_type(self.type)

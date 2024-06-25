@@ -83,7 +83,7 @@ class Utils:
             Utils.set_tensor_with_list_of_indices(tensor[indices[0]], indices[1:], value)
 
     @staticmethod
-    def fill_tensor(switch_indices, dim, values, tensor, current_indices, new_indices, current_level):
+    def fill_transposed_tensor(switch_indices, dim, values, tensor, current_indices, new_indices, current_level):
         if dim == None:
             value = Utils.get_tensor_element_by_list_of_indices(values, current_indices)
             Utils.set_tensor_with_list_of_indices(tensor, new_indices, value)
@@ -104,7 +104,7 @@ class Utils:
 
                 next_current_indices = current_indices[:]
                 next_current_indices.append(j)
-                Utils.fill_tensor(switch_indices, lower_dim, values, tensor, next_current_indices, next_new_indices, current_level + 1)
+                Utils.fill_transposed_tensor(switch_indices, lower_dim, values, tensor, next_current_indices, next_new_indices, current_level + 1)
 
     @staticmethod
     def transpose_tensor_values(dim, values, indices=[0, 1]):
@@ -131,6 +131,70 @@ class Utils:
         new_tensor = Utils.create_zero_tensor(new_dim)
 
         # Fill the new tensor
-        Utils.fill_tensor(indices, dim, values, new_tensor, [], [], 0)
+        Utils.fill_transposed_tensor(indices, dim, values, new_tensor, [], [], 0)
 
         return new_dim, new_tensor
+    
+    @staticmethod
+    def fill_addition_tensor(dim, values1, values2, tensor, current_indices):
+        if dim == None:
+            value1 = Utils.get_tensor_element_by_list_of_indices(values1, current_indices)
+            value2 = Utils.get_tensor_element_by_list_of_indices(values2, current_indices)
+            Utils.set_tensor_with_list_of_indices(tensor, current_indices, value1 + value2)
+        else:
+            if len(dim) == 1:
+                lower_dim = None
+            else:
+                lower_dim = tuple(list(dim)[1:])
+            for j in range(dim[0]):
+                next_current_indices = current_indices[:]
+                next_current_indices.append(j)
+                Utils.fill_addition_tensor(lower_dim, values1, values2, tensor, next_current_indices)
+
+    @staticmethod
+    def add_tensor_values(dim, values1, values2):
+        new_tensor = Utils.create_zero_tensor(dim)
+        Utils.fill_addition_tensor(dim, values1, values2, new_tensor, [])
+        return new_tensor
+    
+    @staticmethod
+    def fill_scalar_mul_tensor(dim, tensor_values, scalar_value, tensor, current_indices):
+        if dim == None:
+            value_tensor = Utils.get_tensor_element_by_list_of_indices(tensor_values, current_indices)
+            Utils.set_tensor_with_list_of_indices(tensor, current_indices, value_tensor * scalar_value)
+        else:
+            if len(dim) == 1:
+                lower_dim = None
+            else:
+                lower_dim = tuple(list(dim)[1:])
+            for j in range(dim[0]):
+                next_current_indices = current_indices[:]
+                next_current_indices.append(j)
+                Utils.fill_scalar_mul_tensor(lower_dim, tensor_values, scalar_value, tensor, next_current_indices)
+    
+    @staticmethod
+    def scalar_mul(dim, tensor_values, scalar_value):
+        new_tensor = Utils.create_zero_tensor(dim)
+        Utils.fill_scalar_mul_tensor(dim, tensor_values, scalar_value, new_tensor, [])
+        return new_tensor
+    
+    @staticmethod
+    def fill_scalar_add_tensor(dim, tensor_values, scalar_value, tensor, current_indices):
+        if dim == None:
+            value_tensor = Utils.get_tensor_element_by_list_of_indices(tensor_values, current_indices)
+            Utils.set_tensor_with_list_of_indices(tensor, current_indices, value_tensor + scalar_value)
+        else:
+            if len(dim) == 1:
+                lower_dim = None
+            else:
+                lower_dim = tuple(list(dim)[1:])
+            for j in range(dim[0]):
+                next_current_indices = current_indices[:]
+                next_current_indices.append(j)
+                Utils.fill_scalar_add_tensor(lower_dim, tensor_values, scalar_value, tensor, next_current_indices)
+    
+    @staticmethod
+    def scalar_add(dim, tensor_values, scalar_value):
+        new_tensor = Utils.create_zero_tensor(dim)
+        Utils.fill_scalar_add_tensor(dim, tensor_values, scalar_value, new_tensor, [])
+        return new_tensor
