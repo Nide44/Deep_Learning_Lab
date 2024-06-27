@@ -3,6 +3,8 @@ from dl_lib.vector import Vector
 from dl_lib.matrix import Matrix
 from dl_lib.tensor import Tensor
 
+from dl_lib.tensor_utils import transpose_tensor, add_scalar, mul_scalar
+
 
 def test_create_scalar():
     scalar = Scalar(3)
@@ -108,33 +110,35 @@ def test_create_matrix_tensor():
 
 def test_scalar_transpose():
     scalar = Scalar(3)
-    scalar.transpose()
-    assert scalar.values == [3] and scalar.dim == (1, 1) and scalar.type == int
+    scalar_T = transpose_tensor(scalar)
+    assert scalar_T.values == [3] and scalar_T.dim == (1, 1) and scalar_T.type == int
 
 
 def test_vector_transpose():
     vector = Vector([1, 2, 3])
-    vector.transpose()
-    assert vector.values == [1, 2, 3] and vector.dim == (1, 3) and vector.type == int
+    vector_T = transpose_tensor(vector)
+    assert (
+        vector_T.values == [1, 2, 3] and vector_T.dim == (1, 3) and vector_T.type == int
+    )
 
 
 def test_matrix_transpose():
     matrix = Matrix([[1, 2, 3], [4, 5, 6]])
-    matrix.transpose()
+    matrix_T = transpose_tensor(matrix)
     assert (
-        matrix.values == [1, 4, 2, 5, 3, 6]
-        and matrix.dim == (3, 2)
-        and matrix.type == int
+        matrix_T.values == [1, 4, 2, 5, 3, 6]
+        and matrix_T.dim == (3, 2)
+        and matrix_T.type == int
     )
 
 
 def test_tensor_transpose1():
     tensor_3d = Tensor([[[1, 2], [3, 4]], [[5, 6], [7, 8]]])
-    tensor_3d.transpose([1, 2])
+    tensor_3d_T = transpose_tensor(tensor_3d, [1, 2])
     assert (
-        tensor_3d.values == [1, 3, 2, 4, 5, 7, 6, 8]
-        and tensor_3d.dim == (2, 2, 2)
-        and tensor_3d.type == int
+        tensor_3d_T.values == [1, 3, 2, 4, 5, 7, 6, 8]
+        and tensor_3d_T.dim == (2, 2, 2)
+        and tensor_3d_T.type == int
     )
 
 
@@ -151,9 +155,9 @@ def test_tensor_transpose2():
             ],
         ]
     )
-    tensor_5d.transpose([3, 4])
+    tensor_5d_T = transpose_tensor(tensor_5d, [3, 4])
     assert (
-        tensor_5d.values
+        tensor_5d_T.values
         == [
             1,
             3,
@@ -188,20 +192,20 @@ def test_tensor_transpose2():
             30,
             32,
         ]
-        and tensor_5d.dim == (2, 2, 2, 2, 2)
-        and tensor_5d.type == int
+        and tensor_5d_T.dim == (2, 2, 2, 2, 2)
+        and tensor_5d_T.type == int
     )
 
-    tensor_5d.transpose([3, 4])
+    tensor_5d = transpose_tensor(tensor_5d_T, [3, 4])
     assert (
         tensor_5d.values == [i + 1 for i in range(32)]
         and tensor_5d.dim == (2, 2, 2, 2, 2)
         and tensor_5d.type == int
     )
 
-    tensor_5d.transpose([0, 1])
+    tensor_5d_T = transpose_tensor(tensor_5d, [0, 1])
     assert (
-        tensor_5d.values
+        tensor_5d_T.values
         == [
             1,
             2,
@@ -236,44 +240,44 @@ def test_tensor_transpose2():
             31,
             32,
         ]
-        and tensor_5d.dim == (2, 2, 2, 2, 2)
-        and tensor_5d.type == int
+        and tensor_5d_T.dim == (2, 2, 2, 2, 2)
+        and tensor_5d_T.type == int
     )
 
 
 def test_add_scalar_scalar():
     scalar1 = Scalar(3)
     scalar2 = Scalar(2)
-    scalar1.add_scalar(scalar2)
-    assert scalar1.values == [5] and scalar1.dim == (1, 1) and scalar1.type == int
+    scalar1_added = add_scalar(scalar1, scalar2)
+    assert scalar1_added.values == [5] and scalar1_added.dim == (1, 1) and scalar1_added.type == int
 
 
 def test_add_scalar_vector():
     scalar = Scalar(3)
     vector = Vector([1, 2, 3])
-    vector.add_scalar(scalar)
-    assert vector.values == [4, 5, 6] and vector.dim == (3, 1) and vector.type == int
+    vector_added = add_scalar(vector, scalar)
+    assert vector_added.values == [4, 5, 6] and vector_added.dim == (3, 1) and vector_added.type == int
 
 
 def test_add_scalar_matrix():
     scalar = Scalar(3)
     matrix = Matrix([[1, 2, 3], [4, 5, 6]])
-    matrix.add_scalar(scalar)
+    matrix_added = add_scalar(matrix, scalar)
     assert (
-        matrix.values == [4, 5, 6, 7, 8, 9]
-        and matrix.dim == (2, 3)
-        and matrix.type == int
+        matrix_added.values == [4, 5, 6, 7, 8, 9]
+        and matrix_added.dim == (2, 3)
+        and matrix_added.type == int
     )
 
 
 def test_add_scalar_tensor():
     scalar = Scalar(3)
     tensor_3d = Tensor([[[1, 2], [3, 4]], [[5, 6], [7, 8]]])
-    tensor_3d.add_scalar(scalar)
+    tensor_3d_added = add_scalar(tensor_3d, scalar)
     assert (
-        tensor_3d.values == [4, 5, 6, 7, 8, 9, 10, 11]
-        and tensor_3d.dim == (2, 2, 2)
-        and tensor_3d.type == int
+        tensor_3d_added.values == [4, 5, 6, 7, 8, 9, 10, 11]
+        and tensor_3d_added.dim == (2, 2, 2)
+        and tensor_3d_added.type == int
     )
 
 
@@ -322,36 +326,36 @@ def test_add_tensors():
 def test_mul_scalar_scalar():
     scalar1 = Scalar(3)
     scalar2 = Scalar(2)
-    scalar1.mul_scalar(scalar2)
-    assert scalar1.values == [6] and scalar1.dim == (1, 1) and scalar1.type == int
+    scalar1_mul = mul_scalar(scalar1, scalar2)
+    assert scalar1_mul.values == [6] and scalar1_mul.dim == (1, 1) and scalar1_mul.type == int
 
 
 def test_mul_scalar_vector():
     scalar = Scalar(3)
     vector = Vector([1, 2, 3])
-    vector.mul_scalar(scalar)
-    assert vector.values == [3, 6, 9] and vector.dim == (3, 1) and vector.type == int
+    vector_mul = mul_scalar(vector, scalar)
+    assert vector_mul.values == [3, 6, 9] and vector_mul.dim == (3, 1) and vector_mul.type == int
 
 
 def test_mul_scalar_matrix():
     scalar = Scalar(3)
     matrix = Matrix([[1, 2, 3], [4, 5, 6]])
-    matrix.mul_scalar(scalar)
+    matrix_mul = mul_scalar(matrix, scalar)
     assert (
-        matrix.values == [3, 6, 9, 12, 15, 18]
-        and matrix.dim == (2, 3)
-        and matrix.type == int
+        matrix_mul.values == [3, 6, 9, 12, 15, 18]
+        and matrix_mul.dim == (2, 3)
+        and matrix_mul.type == int
     )
 
 
 def test_mul_scalar_tensor():
     scalar = Scalar(3)
     tensor_3d = Tensor([[[1, 2], [3, 4]], [[5, 6], [7, 8]]])
-    tensor_3d.mul_scalar(scalar)
+    tensor_3d_mul = mul_scalar(tensor_3d, scalar)
     assert (
-        tensor_3d.values == [3, 6, 9, 12, 15, 18, 21, 24]
-        and tensor_3d.dim == (2, 2, 2)
-        and tensor_3d.type == int
+        tensor_3d_mul.values == [3, 6, 9, 12, 15, 18, 21, 24]
+        and tensor_3d_mul.dim == (2, 2, 2)
+        and tensor_3d_mul.type == int
     )
 
 
