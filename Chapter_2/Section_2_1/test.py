@@ -3,6 +3,7 @@ from dl_lib.vector import Vector
 from dl_lib.matrix import Matrix
 from dl_lib.tensor import Tensor
 
+
 def test_create_scalar():
     scalar = Scalar(3)
     assert scalar.values == [3] and scalar.dim == (1, 1) and scalar.type == int
