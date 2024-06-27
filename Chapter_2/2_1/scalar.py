@@ -1,23 +1,6 @@
-from utils import Utils
+from tensor import Tensor
 
-class Scalar:
-    def __init__(self, value):
-        self.value = value
-        self.dim = None
-        self.type = type(value)
 
-        is_valid_scalar = self.check_valid_scalar()
-        if not is_valid_scalar:
-            raise Exception("Scalar is not valid")
-        
-    def __add__(self, other):
-        return Scalar(self.value + other.value)
-
-    def check_valid_scalar(self):
-        return Utils.check_primitive_type(self.type)
-    
-    def transpose(self):
-        pass
-    
-    def __str__(self):
-        return Utils.stringify_tensor(self.dim, self.value)
+class Scalar(Tensor):
+    def __init__(self, values, predefined=False, dim=None, element_type=None):
+        super().__init__(values, predefined, dim, element_type)
