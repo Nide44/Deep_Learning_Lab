@@ -73,4 +73,6 @@ def test_dot_prod_commutative():
 def test_transpose_matrix_mul():
     matrix1 = Matrix([[1, 2, 3], [4, 5, 6]])
     matrix2 = Matrix([[7, 8, 9], [10, 11, 12], [13, 14, 15]])
-    assert transpose_tensor(matrix1 * matrix2) == transpose_tensor(matrix2) * transpose_tensor(matrix1)
+    assert transpose_tensor(matrix1 * matrix2) == transpose_tensor(
+        matrix2
+    ) * transpose_tensor(matrix1)

@@ -15,7 +15,14 @@ class Matrix(Tensor):
             row_values = self.get_row_values(i)
             for j in range(other.dim[1]):
                 col_values = other.get_col_values(j)
-                new_values.append(sum([row_value * col_value for (row_value, col_value) in zip(row_values, col_values)]))
+                new_values.append(
+                    sum(
+                        [
+                            row_value * col_value
+                            for (row_value, col_value) in zip(row_values, col_values)
+                        ]
+                    )
+                )
 
         return type(self)(new_values, True, new_dim, self.type)
 

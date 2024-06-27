@@ -77,9 +77,11 @@ def transpose_tensor(tensor, indices=[0, 1]):
 
     return type(tensor)(new_values, True, new_dim, tensor.type)
 
+
 def mul_scalar(tensor, scalar):
     new_values = [value * scalar.values[0] for value in tensor.values]
     return type(tensor)(new_values, True, tensor.dim, tensor.type)
+
 
 def add_scalar(tensor, scalar):
     new_values = [value + scalar.values[0] for value in tensor.values]

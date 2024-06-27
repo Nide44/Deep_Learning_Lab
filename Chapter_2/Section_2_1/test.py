@@ -249,14 +249,22 @@ def test_add_scalar_scalar():
     scalar1 = Scalar(3)
     scalar2 = Scalar(2)
     scalar1_added = add_scalar(scalar1, scalar2)
-    assert scalar1_added.values == [5] and scalar1_added.dim == (1, 1) and scalar1_added.type == int
+    assert (
+        scalar1_added.values == [5]
+        and scalar1_added.dim == (1, 1)
+        and scalar1_added.type == int
+    )
 
 
 def test_add_scalar_vector():
     scalar = Scalar(3)
     vector = Vector([1, 2, 3])
     vector_added = add_scalar(vector, scalar)
-    assert vector_added.values == [4, 5, 6] and vector_added.dim == (3, 1) and vector_added.type == int
+    assert (
+        vector_added.values == [4, 5, 6]
+        and vector_added.dim == (3, 1)
+        and vector_added.type == int
+    )
 
 
 def test_add_scalar_matrix():
@@ -327,14 +335,22 @@ def test_mul_scalar_scalar():
     scalar1 = Scalar(3)
     scalar2 = Scalar(2)
     scalar1_mul = mul_scalar(scalar1, scalar2)
-    assert scalar1_mul.values == [6] and scalar1_mul.dim == (1, 1) and scalar1_mul.type == int
+    assert (
+        scalar1_mul.values == [6]
+        and scalar1_mul.dim == (1, 1)
+        and scalar1_mul.type == int
+    )
 
 
 def test_mul_scalar_vector():
     scalar = Scalar(3)
     vector = Vector([1, 2, 3])
     vector_mul = mul_scalar(vector, scalar)
-    assert vector_mul.values == [3, 6, 9] and vector_mul.dim == (3, 1) and vector_mul.type == int
+    assert (
+        vector_mul.values == [3, 6, 9]
+        and vector_mul.dim == (3, 1)
+        and vector_mul.type == int
+    )
 
 
 def test_mul_scalar_matrix():
