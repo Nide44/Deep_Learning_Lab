@@ -1,3 +1,5 @@
+import math
+
 from dl_lib.matrix import Matrix
 
 
@@ -23,3 +25,7 @@ def create_identity_matrix(dim):
         for j in range(dim[1]):
             new_values.append(1) if i == j else new_values.append(0)
     return Matrix(new_values, True, dim, int)
+
+
+def calculate_frobenius_norm(matrix):
+    return math.sqrt(sum([math.pow(value, 2) for value in matrix.values]))
