@@ -1,6 +1,6 @@
 import math
 from dl_lib.utils import Utils
-
+from dl_lib.tensor_utils import cast_values_same_type
 
 class Tensor:
     def __init__(self, values, predefined=False, dim=None, element_type=None):
@@ -13,6 +13,8 @@ class Tensor:
             self.dim = dim
             self.values = values
             self.type = element_type
+
+        self.values = cast_values_same_type(self.values)
 
         is_valid_tensor = self.check_valid_tensor()
         if not is_valid_tensor:
