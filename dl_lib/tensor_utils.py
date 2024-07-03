@@ -87,6 +87,7 @@ def add_scalar(tensor, scalar):
     new_values = [value + scalar.values[0] for value in tensor.values]
     return type(tensor)(new_values, True, tensor.dim, tensor.type)
 
+
 def cast_values_same_type(values):
     types = [type(value) for value in values]
     if str in types:

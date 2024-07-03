@@ -2,6 +2,7 @@ import math
 from dl_lib.utils import Utils
 from dl_lib.tensor_utils import cast_values_same_type
 
+
 class Tensor:
     def __init__(self, values, predefined=False, dim=None, element_type=None):
         if not predefined:

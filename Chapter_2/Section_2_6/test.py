@@ -135,7 +135,6 @@ def test_orthogonal_matrix():
     matrix = Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
     transposed_matrix = transpose_tensor(matrix)
     assert (
-        matrix * transposed_matrix
-        == transposed_matrix * matrix
+        matrix * transposed_matrix == transposed_matrix * matrix
         and matrix * transposed_matrix == create_identity_matrix(matrix.dim)
     )
